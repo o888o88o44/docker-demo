@@ -24,3 +24,7 @@ jobs:
       # 👇 NEW: build Docker image
       - name: Build Docker image
         run: docker build -t docker-demo .
+        
+      - name: Run Docker container
+        run: |
+          docker run -d -p 8080:8080 docker-demo
