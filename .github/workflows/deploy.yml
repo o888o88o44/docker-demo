@@ -20,7 +20,7 @@ jobs:
             cd /root/docker-demo || git clone https://github.com/o888o88o44/docker-demo.git
             cd docker-demo
             git pull
-            docker stop app || true
-            docker rm app || true
+            docker stop docker-demo-app || true
+            docker rm docker-demo-app || true
             docker build -t docker-demo-app .
-            docker run -d -p 8080:8080 --name app docker-demo-app
+            docker run -d -p 8080:8080 --name docker-demo-app docker-demo-app:latest
