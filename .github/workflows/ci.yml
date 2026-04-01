@@ -27,8 +27,12 @@ jobs:
 
       # 🔥 Build image
       - name: Build Docker image
-        run: docker build -t o888o88o44/docker-demo:latest .
+        run: |
+          docker build -t o888o88o44/docker-demo:latest \
+                       -t o888o88o44/docker-demo:${{ github.sha }} .
 
       # 🔥 Push image
-      - name: Push Docker image
-        run: docker push o888o88o44/docker-demo:latest
+      - name: Push Docker images
+        run: |
+          docker push o888o88o44/docker-demo:latest
+          docker push o888o88o44/docker-demo:${{ github.sha }}
