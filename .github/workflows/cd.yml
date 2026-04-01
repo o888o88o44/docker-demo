@@ -1,12 +1,14 @@
 name: Deploy to VPS
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -17,10 +19,7 @@ jobs:
           username: root
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /root/docker-demo || git clone https://github.com/o888o88o44/docker-demo.git
-            cd docker-demo
-            git pull
+            docker pull o888o88o44/docker-demo:latest
             docker stop docker-demo-app || true
             docker rm docker-demo-app || true
-            docker build -t docker-demo-app .
-            docker run -d -p 8080:8080 --name docker-demo-app docker-demo-app:latest
+            docker run -d -p 8080:8080 --name docker-demo-app o888o88o44/docker-demo:latest
